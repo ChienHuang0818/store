@@ -94,11 +94,11 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 16,
-  },
+  }, 
   switchText: {
     textAlign: 'center',
     color: '#007BFF',
-  }
+  }   
 });
 
-export default SignUpScreen;
+export default SignUpScreen;  

@@ -1,7 +1,5 @@
 // src/services/fetchService.js
 
-// src/services/fetchService.js
-
 const API_BASE_URL = "http://localhost:3000";
 
 export const signUp = async (name, email, password) => {

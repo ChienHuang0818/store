@@ -1,14 +1,28 @@
 // src/screens/Cart.js
 import React from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import colors from '../constants/colors';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button } from '../components/Button';
-import { removeFromCart, addToCart } from '../store/cartSlice';
+import { removeFromCart, addToCart, clearCart } from '../store/cartSlice';
+import { submitOrder } from '../services/fetchService';
+import { useNavigation } from '@react-navigation/native';
 
 const Cart = () => {
   const cart = useSelector(state => state.cart);
+  const user = useSelector(state => state.user.user);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const handleCheckout = async () => {
+    try {
+      await submitOrder(user.id, cart.items);
+      dispatch(clearCart());
+      Alert.alert('Success', 'Order has been placed');
+      navigation.navigate('MyOrders');
+    } catch (error) {
+      Alert.alert('Error', 'Failed to place order');
+      console.error('Error placing order:', error);
+    }
+  };
 
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
@@ -31,25 +45,28 @@ const Cart = () => {
 
   const renderEmptyContainer = () => (
     <View style={styles.emptyContainer}>
-      <Text style={styles.emptyText}>Your shopping cart is empty</Text>
+      <Text style={styles.emptyText}>Your Cart is Empty</Text>
     </View>
   );
 
   return (
     <View style={styles.container}>
       <View style={styles.cartTitle}>
-        <Text style={styles.cartTitleText}>Shopping cart</Text>
+        <Text style={styles.cartTitleText}>Shopping Cart</Text>
       </View>
       <FlatList
         data={cart.items}
         renderItem={renderItem}
-        keyExtractor={item => item.id.toString()}
-        ListEmptyComponent={renderEmptyContainer}  // This will render when the list is empty
+        keyExtractor={item => (item.id ? item.id.toString() : Math.random().toString())}
+        ListEmptyComponent={renderEmptyContainer}
       />
       {cart.items.length > 0 && (
         <>
           <Text style={styles.summaryText}>Total Items: {cart.totalItems}</Text>
           <Text style={styles.summaryText}>Total Price: ${cart.totalPrice.toFixed(2)}</Text>
+          <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
+            <Text style={styles.checkoutButtonText}>Check Out</Text>
+          </TouchableOpacity>
         </>
       )}
     </View>
@@ -108,7 +125,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 200,  // Adjust this value as needed
+    marginTop: 200,
   },
   emptyText: {
     fontSize: 20,
@@ -118,12 +135,22 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.grey, // 或者选择其他背景颜色
+    backgroundColor: '#f0f0f0',
   },
   cartTitleText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: colors.black,
+  },
+  checkoutButton: {
+    backgroundColor: '#007BFF',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  checkoutButtonText: {
+    color: '#fff',
+    fontSize: 16,
   },
 });
 
