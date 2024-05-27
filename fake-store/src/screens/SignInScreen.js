@@ -16,10 +16,15 @@ const SignInScreen = () => {
     try {
       const data = await signIn(email, password);
       console.log('Sign in data:', data);
-
-      dispatch(userSignedIn({ user: data, token: data.token }));
-      Alert.alert('Success', 'Logged in successfully');
-      navigation.navigate('BottomTabs');
+      if (data.token) {
+        const userData = { user: { name: data.name, email: data.email, id: data.id }, token: data.token };
+        console.log('User data to store:', userData);
+        dispatch(userSignedIn(userData));
+        Alert.alert('Success', 'Logged in successfully');
+        navigation.navigate('BottomTabs');
+      } else {
+        Alert.alert('Error', data.message);
+      }
     } catch (error) {
       console.error('Error:', error);
       Alert.alert('Error', error.message);
@@ -85,9 +90,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   switchText: {
-    textAlign: 'center',
+    textAlign: 'center', 
     color: '#007BFF',
   }
 });
- 
+
 export default SignInScreen;

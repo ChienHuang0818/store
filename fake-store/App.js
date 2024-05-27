@@ -27,6 +27,12 @@ const ProductStack = () => (
   </Stack.Navigator>
 );
 
+const UserProfileStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+  </Stack.Navigator>
+);
+
 const BottomTabNavigator = () => {
   const cartItemCount = useSelector(state => state.cart.totalItems);
   const user = useSelector(state => state.user.user);
@@ -51,8 +57,8 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen 
-        name="UserProfile" 
-        component={UserProfileScreen} 
+        name="Profile" 
+        component={UserProfileStack} 
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (<MaterialIcons name="person" size={size} color={color} />)
