@@ -161,3 +161,4 @@ backButtonText: {
   });
   
   
+  export default Productlist;

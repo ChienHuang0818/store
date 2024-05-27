@@ -13,16 +13,6 @@ const SignInScreen = () => {
   const [password, setPassword] = useState('');
 
   const handleSignIn = async () => {
-    if (!validateEmail(email)) {
-      Alert.alert('Invalid email.');
-      return;
-    }
-
-    if (!validatePassword(password)) {
-      Alert.alert('Password must contain at least one uppercase letter, one lowercase letter, and one digit. The minimum length of the password is 8 characters.');
-      return;
-    }
-
     try {
       const data = await signIn(email, password);
       console.log('Sign in data:', data);
@@ -34,16 +24,6 @@ const SignInScreen = () => {
       console.error('Error:', error);
       Alert.alert('Error', error.message);
     }
-  };
-
-  const validateEmail = (email) => {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
-  };
-
-  const validatePassword = (password) => {
-    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    return re.test(password);
   };
 
   return (
@@ -109,5 +89,5 @@ const styles = StyleSheet.create({
     color: '#007BFF',
   }
 });
-
+ 
 export default SignInScreen;

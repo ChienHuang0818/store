@@ -8,15 +8,14 @@ import { Provider, useSelector } from "react-redux";
 import { store } from "./src/store/store";
 
 // Screens
-import { Categories } from './src/screens/Categories';
-import { Productlist } from './src/screens/Productlist';
-import { Productdetail } from './src/screens/Productdetail';
-import { Cart } from './src/screens/Cart';
+import Categories from './src/screens/Categories';
+import Productlist from './src/screens/Productlist';
+import Productdetail from './src/screens/Productdetail';
+import Cart from './src/screens/Cart';
 import SignUpScreen from './src/screens/SignUpScreen';
 import SignInScreen from './src/screens/SignInScreen';
 import UserProfileScreen from './src/screens/UserProfileScreen';
 
-// Navigation setup
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -52,8 +51,8 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen 
-        name="Profile" 
-        component={user ? UserProfileScreen : SignInScreen} 
+        name="UserProfile" 
+        component={UserProfileScreen} 
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (<MaterialIcons name="person" size={size} color={color} />)
@@ -68,7 +67,6 @@ const AppNavigator = () => (
     <Stack.Screen name="SignIn" component={SignInScreen} options={{ title: 'Sign In' }} />
     <Stack.Screen name="SignUp" component={SignUpScreen} options={{ title: 'Sign Up' }} />
     <Stack.Screen name="BottomTabs" component={BottomTabNavigator} options={{ headerShown: false }} />
-    <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} options={{ title: 'User Profile' }} />
   </Stack.Navigator>
 );
 

@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '../components/Button';
 import { removeFromCart, addToCart } from '../store/cartSlice';
 
-export const Cart = () => {
+const Cart = () => {
   const cart = useSelector(state => state.cart);
   const dispatch = useDispatch();
 
@@ -35,10 +35,8 @@ export const Cart = () => {
     </View>
   );
 
-
   return (
     <View style={styles.container}>
-    
       <View style={styles.cartTitle}>
         <Text style={styles.cartTitleText}>Shopping cart</Text>
       </View>
@@ -128,3 +126,5 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
 });
+
+export default Cart;

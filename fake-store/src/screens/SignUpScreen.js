@@ -31,10 +31,9 @@ const SignUpScreen = () => {
 
     try {
       const data = await signUp(name, email, password);
-      console.log('Sign up data:', data);
-      dispatch(userSignedUp(data));
+      dispatch(userSignedUp({ user: { name: data.name, email: data.email }, token: data.token }));
       Alert.alert('Success', 'Account created successfully');
-      navigation.navigate('UserProfileScreen');
+      navigation.navigate('BottomTabs', { screen: 'UserProfile' }); // 导航到带有底部标签栏的用户资料页面
     } catch (error) {
       console.error('Error:', error);
       Alert.alert('Error', error.message);
@@ -105,7 +104,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 16,
     textAlign: 'center',
-    color: '#fff',
+    color: '#000',
   },
   input: {
     height: 40,
